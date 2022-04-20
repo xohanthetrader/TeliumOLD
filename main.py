@@ -16,6 +16,7 @@ queen = 0
 vent_shafts = []
 info_panels = 0
 workers = [0]
+image_path = "map.png"
 
 #Procedures
 def load_module():
@@ -82,6 +83,12 @@ def sanitize(input):
 	
 #Main
 
+img = Image.open(image_path)
+print("Do you wish to see a map? y/[n]")
+want_image = input(">")
+if want_image == "y":
+	img.show()
+
 while alive and not won:
 	load_module()
 	check_power()
@@ -91,5 +98,7 @@ while alive and not won:
 
 if won:
 	print("The queen is trapped and you burnt it with your flamethrower \n Game over you win")
+	img.close()
 if not alive:
 	print("Station has run out of power No life supprt you die")
+	img.close()
