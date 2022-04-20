@@ -1,5 +1,6 @@
 import random
-from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 # Variables
 
@@ -83,11 +84,12 @@ def sanitize(input):
 	
 #Main
 
-img = Image.open(image_path)
 print("Do you wish to see a map? y/[n]")
 want_image = input(">")
 if want_image == "y":
-	img.show()
+	img = mpimg.imread('map.png')
+	imgplot = plt.imshow(img)
+	plt.show(block=False)
 
 while alive and not won:
 	load_module()
@@ -98,7 +100,5 @@ while alive and not won:
 
 if won:
 	print("The queen is trapped and you burnt it with your flamethrower \n Game over you win")
-	img.close()
 if not alive:
 	print("Station has run out of power No life supprt you die")
-	img.close()
