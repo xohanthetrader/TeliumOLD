@@ -15,13 +15,14 @@ fuel = 500
 locked = 0 #Locked module
 queen = 0
 vent_shafts = []
-info_panels = 0
-workers = [0]
+info_panels = []
+workers = []
 image_path = "map.png"
 
 #Procedures
 def load_module():
 	global module, possible_moves
+	check_mod(module)
 	possible_moves = get_modules_from(module)
 	output_module()
 
@@ -81,6 +82,40 @@ def sanitize(input):
 	except:
 		inputs.append(0)
 	return inputs
+
+
+def spawn_npcs():
+	global num_modules, queen, vent_shafts, info_panels, workers
+	module_set =[]
+	for counter in range(2,num_modules):
+		module_set.append(counter)
+	random.shuffle(module_set)
+	print(module_set)
+	i = 0
+	queen = module_set[i]
+	for counter in range(0,3):
+		i += 1
+		vent_shafts.append(module_set[i])
+	for counter in range(0,2):
+		i += 1
+		info_panels.append(module_set[i])
+	for counter in range(0,3):
+		i += 1
+		workers.append(module_set[i])
+
+def check_mod(currmod):
+	global queen, workers, info_panels, vent_shafts
+	what = ""
+	if currmod == queen:
+		what = "queen"
+	if currmod in workers:
+		what = "worker"
+	if currmod in info_panels:
+		what = "info panel"
+	if currmod in vent_shafts:
+		what = "vent shaft"
+	if what != "":
+		print(f"There is a {what} in here")
 	
 #Main
 
@@ -90,6 +125,12 @@ if want_image == "y":
 	img = mpimg.imread('map.png')
 	imgplot = plt.imshow(img)
 	plt.show(block=False)
+
+spawn_npcs()
+print("Queen alien is located in module:",queen)
+print("Ventilation shafts are located in modules:",vent_shafts)
+print("Information panels are located in modules:",info_panels)
+print("Worker aliens are located in modules:",workers)
 
 while alive and not won:
 	load_module()
